@@ -3,20 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SDGs Plastic-Free Sustainability – Beach Cleanup</title>
+<title>SDGs Plastic-Free Sustainability – Galaxy Cleanup</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap');
 
   :root {
-    --sand-light: #f4e4bc;
-    --sand-mid:   #e6cf95;
-    --sand-dark:  #d4b873;
-    --sea-deep:   #1b6f8c;
-    --sea-mid:    #2a9bb8;
-    --sea-light:  #5bc7d6;
-    --foam:       #eafaff;
-    --ink:        #0f3a44;
-    --gold:       #ffb627;
+    --space-top:   #0b0c2a;
+    --space-mid:   #1a1247;
+    --space-low:   #2d1a5e;
+    --planet-hi:   #6d4bc4;
+    --planet-mid:  #4a2f8f;
+    --planet-low:  #2a1a55;
+    --nebula-pink: #ff5fae;
+    --nebula-cyan: #38e1ff;
+    --star:        #fdf6d8;
+    --gold:        #ffd24a;
+    --ink:         #0b0c2a;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,199 +37,167 @@
     height: 100vh;
     background: linear-gradient(
       to bottom,
-      #aee7f5 0%,
-      #cdeef0 14%,
-      var(--sea-light) 15%,
-      var(--sea-mid) 26%,
-      var(--sea-deep) 38%,
-      var(--sea-mid) 44%,
-      #7fd0c9 47%,
-      var(--sand-light) 50%,
-      var(--sand-mid) 72%,
-      var(--sand-dark) 100%
+      #05061a 0%,
+      var(--space-top) 12%,
+      var(--space-mid) 30%,
+      var(--space-low) 46%,
+      #3a2470 49%,
+      var(--planet-hi) 52%,
+      var(--planet-mid) 74%,
+      var(--planet-low) 100%
     );
     cursor: default;
   }
 
-  /* sun */
-  .sun {
+  /* ---- starfield ---- */
+  .stars, .stars2 {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .stars  { animation: twinkle 4s ease-in-out infinite alternate; }
+  .stars2 { animation: twinkle 6s ease-in-out infinite alternate-reverse; }
+  @keyframes twinkle {
+    from { opacity: 0.55; }
+    to   { opacity: 1; }
+  }
+  .star {
+    position: absolute;
+    background: var(--star);
+    border-radius: 50%;
+    box-shadow: 0 0 6px 1px rgba(253,246,216,0.8);
+  }
+
+  /* nebula glow clouds */
+  .nebula {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(48px);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .neb1 { width: 360px; height: 260px; top: 4%;  left: -6%;
+          background: radial-gradient(circle, rgba(255,95,174,0.55), transparent 70%); }
+  .neb2 { width: 420px; height: 300px; top: 14%; right: -8%;
+          background: radial-gradient(circle, rgba(56,225,255,0.4), transparent 70%); }
+  .neb3 { width: 300px; height: 220px; top: 30%; left: 38%;
+          background: radial-gradient(circle, rgba(140,90,255,0.45), transparent 70%); }
+
+  /* ---- the moon (big glowing body) ---- */
+  .moon {
     position: absolute;
     top: 5%;
     right: 32%;
-    width: 80px; height: 80px;
+    width: 84px; height: 84px;
     border-radius: 50%;
-    background: radial-gradient(circle at 38% 38%, #fff6cf, #ffd24a 60%, #ffb627);
-    box-shadow: 0 0 55px 16px rgba(255,210,74,0.55);
-    z-index: 1;
-    animation: sunGlow 4s ease-in-out infinite alternate;
+    background: radial-gradient(circle at 36% 34%, #fffef0, #ffe9a8 55%, #f0b94e);
+    box-shadow: 0 0 60px 18px rgba(255,225,150,0.55);
+    z-index: 2;
+    animation: moonGlow 4.5s ease-in-out infinite alternate;
   }
-  @keyframes sunGlow {
-    from { box-shadow: 0 0 45px 12px rgba(255,210,74,0.45); }
-    to   { box-shadow: 0 0 70px 22px rgba(255,210,74,0.7); }
+  .moon::before, .moon::after {
+    content: ""; position: absolute; border-radius: 50%;
+    background: rgba(190,150,70,0.35);
   }
-  /* sun rays */
-  .sun-rays {
+  .moon::before { width: 20px; height: 20px; top: 22px; left: 18px; }
+  .moon::after  { width: 13px; height: 13px; top: 48px; left: 46px;
+                  box-shadow: -16px -8px 0 -3px rgba(190,150,70,0.3); }
+  @keyframes moonGlow {
+    from { box-shadow: 0 0 48px 14px rgba(255,225,150,0.45); }
+    to   { box-shadow: 0 0 78px 24px rgba(255,225,150,0.7); }
+  }
+
+  /* a ringed planet drifting in the distance */
+  .planet-deco {
     position: absolute;
-    top: 5%;
-    right: 32%;
-    width: 80px; height: 80px;
+    top: 16%; left: 10%;
     z-index: 1;
-    transform-origin: 50% 50%;
-    animation: spin 60s linear infinite;
+    pointer-events: none;
+    animation: floaty 9s ease-in-out infinite alternate;
   }
-  .sun-rays::before {
-    content: "";
+  @keyframes floaty {
+    from { transform: translateY(0); }
+    to   { transform: translateY(14px); }
+  }
+
+  /* shooting star sweeping across */
+  .shooting {
     position: absolute;
-    inset: -22px;
+    top: 8%; left: -10%;
+    width: 110px; height: 2px;
+    background: linear-gradient(90deg, transparent, #fff, var(--nebula-cyan));
+    border-radius: 2px;
+    z-index: 1;
+    opacity: 0;
+    animation: shoot 7s ease-in infinite;
+  }
+  @keyframes shoot {
+    0%, 70%   { transform: translate(0,0) rotate(20deg); opacity: 0; }
+    74%       { opacity: 1; }
+    86%       { transform: translate(60vw, 26vh) rotate(20deg); opacity: 1; }
+    92%, 100% { transform: translate(72vw, 32vh) rotate(20deg); opacity: 0; }
+  }
+
+  /* ---- moon surface terrain ---- */
+
+  /* static moon surface terrain (the ground the debris sits on) */
+  .surface {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 0;
+    height: 51%;
+    z-index: 2;
+    pointer-events: none;
+  }
+  /* rolling rocky terrain silhouette along the top edge of the ground */
+  .surface .ridge {
+    position: absolute;
+    top: -1px; left: 0;
+    width: 100%;
+    height: 60px;
+  }
+  /* dusty surface texture: speckles of moon dust, no motion */
+  .surface .dust {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1.5px),
+      radial-gradient(rgba(0,0,0,0.14) 1px, transparent 1.5px);
+    background-size: 46px 46px, 70px 70px;
+    background-position: 0 0, 23px 31px;
+  }
+  /* soft glow line where the surface meets space */
+  .surface .rim {
+    position: absolute;
+    top: -3px; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg,
+      transparent, rgba(160,200,255,0.55), rgba(200,160,255,0.55),
+      rgba(160,200,255,0.55), transparent);
+    filter: blur(2px);
+  }
+
+  /* surface craters */
+  .crater {
+    position: absolute;
     border-radius: 50%;
-    background:
-      conic-gradient(from 0deg,
-        rgba(255,210,74,0.8) 0deg 7deg, transparent 7deg 30deg,
-        rgba(255,210,74,0.8) 30deg 37deg, transparent 37deg 60deg,
-        rgba(255,210,74,0.8) 60deg 67deg, transparent 67deg 90deg,
-        rgba(255,210,74,0.8) 90deg 97deg, transparent 97deg 120deg,
-        rgba(255,210,74,0.8) 120deg 127deg, transparent 127deg 150deg,
-        rgba(255,210,74,0.8) 150deg 157deg, transparent 157deg 180deg,
-        rgba(255,210,74,0.8) 180deg 187deg, transparent 187deg 210deg,
-        rgba(255,210,74,0.8) 210deg 217deg, transparent 217deg 240deg,
-        rgba(255,210,74,0.8) 240deg 247deg, transparent 247deg 270deg,
-        rgba(255,210,74,0.8) 270deg 277deg, transparent 277deg 300deg,
-        rgba(255,210,74,0.8) 300deg 307deg, transparent 307deg 330deg,
-        rgba(255,210,74,0.8) 330deg 337deg, transparent 337deg 360deg);
-    -webkit-mask: radial-gradient(circle, transparent 50%, #000 52%, #000 70%, transparent 72%);
-            mask: radial-gradient(circle, transparent 50%, #000 52%, #000 70%, transparent 72%);
-  }
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-
-  /* big boat sailing across the sea */
-  .boat {
-    position: absolute;
-    top: 26%;
-    left: -160px;
-    width: 150px;
+    background: radial-gradient(circle at 40% 32%,
+      rgba(255,255,255,0.10), rgba(0,0,0,0.18) 55%, rgba(0,0,0,0.42));
+    box-shadow: inset 0 5px 10px rgba(0,0,0,0.5),
+                inset 0 -3px 6px rgba(255,255,255,0.12),
+                0 -2px 0 rgba(255,255,255,0.10);
     z-index: 2;
-    filter: drop-shadow(0 6px 6px rgba(0,0,0,0.22));
-    animation: sail 40s linear infinite;
+    pointer-events: none;
   }
-  .boat .hull-bob {
-    animation: bob 3.2s ease-in-out infinite alternate;
-    transform-origin: 50% 60%;
-  }
-  @keyframes sail {
-    from { transform: translateX(0); }
-    to   { transform: translateX(calc(100vw + 200px)); }
-  }
-  @keyframes bob {
-    from { transform: translateY(0) rotate(-2deg); }
-    to   { transform: translateY(6px) rotate(2deg); }
-  }
-
-  /* clouds */
-  .cloud {
+  /* tiny moon rocks scattered on the ground */
+  .rock {
     position: absolute;
-    background: #ffffff;
-    border-radius: 50px;
-    opacity: 0.92;
-    z-index: 1;
-    box-shadow: 18px 0 0 4px #fff, -16px 4px 0 -2px #fff;
-  }
-  .cloud::before, .cloud::after {
-    content: ""; position: absolute; background: #fff; border-radius: 50%;
-  }
-  .cloud::before { width: 46px; height: 46px; top: -22px; left: 14px; }
-  .cloud::after  { width: 32px; height: 32px; top: -14px; left: 52px; }
-  .c1 { width: 96px; height: 30px; top: 6%;  left: 12%; animation: drift 46s linear infinite; }
-  .c2 { width: 72px; height: 24px; top: 3%;  left: 44%; animation: drift 62s linear infinite; }
-  /* big feature cloud that clearly floats left -> right */
-  .c-big {
-    width: 150px; height: 46px; top: 9%; left: 0;
-    animation: driftBig 34s linear infinite;
-  }
-  .c-big::before { width: 72px; height: 72px; top: -34px; left: 24px; }
-  .c-big::after  { width: 52px; height: 52px; top: -22px; left: 86px; }
-  @keyframes drift {
-    from { transform: translateX(-160px); }
-    to   { transform: translateX(110vw); }
-  }
-  @keyframes driftBig {
-    from { transform: translateX(-220px); }
-    to   { transform: translateX(110vw); }
-  }
-
-  /* foam line where sea meets sand */
-  .foam-line {
-    position: absolute;
-    left: 0; right: 0;
-    top: 49.5%;
-    height: 24px;
-    background:
-      radial-gradient(ellipse 80px 9px at 18% 50%, var(--foam) 60%, transparent 64%),
-      radial-gradient(ellipse 95px 10px at 50% 50%, var(--foam) 60%, transparent 64%),
-      radial-gradient(ellipse 85px 9px at 82% 50%, var(--foam) 60%, transparent 64%);
-    opacity: 0.7;
+    background: radial-gradient(circle at 38% 30%, #6e58a8, #3a2870 70%);
+    box-shadow: 0 3px 5px rgba(0,0,0,0.45);
     z-index: 2;
-    animation: lap 5s ease-in-out infinite alternate;
-  }
-  @keyframes lap {
-    from { transform: translateY(-2px); }
-    to   { transform: translateY(3px); }
-  }
-
-  /* ---------- Ocean waves crashing onto the beach ---------- */
-  .waves {
-    position: absolute;
-    left: 0; right: 0;
-    top: 34%;
-    height: 16%;
-    z-index: 3;
     pointer-events: none;
-    overflow: hidden;
   }
-  .waves svg {
-    position: absolute;
-    left: 0;
-    width: 220%;
-    height: 100%;
-  }
-  /* three stacked wave layers moving sideways at different speeds */
-  .wave-back  { animation: rollX 13s linear infinite; opacity: 0.55; }
-  .wave-mid   { animation: rollX 9s  linear infinite; opacity: 0.75; }
-  .wave-front { animation: rollX 6s  linear infinite; opacity: 0.95; }
-  @keyframes rollX {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-45.4545%); } /* one tile of 220% width */
-  }
-
-  /* the surging foam wash that crashes onto the sand edge and recedes */
-  .surf {
-    position: absolute;
-    left: 0; right: 0;
-    top: 48%;
-    height: 36px;
-    z-index: 4;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse 70px 14px at 8% 55%,  rgba(255,255,255,0.9) 52%, transparent 58%),
-      radial-gradient(ellipse 95px 16px at 26% 42%, rgba(255,255,255,0.9) 54%, transparent 60%),
-      radial-gradient(ellipse 78px 14px at 45% 60%, rgba(255,255,255,0.9) 52%, transparent 58%),
-      radial-gradient(ellipse 100px 17px at 64% 44%, rgba(255,255,255,0.9) 54%, transparent 60%),
-      radial-gradient(ellipse 74px 14px at 82% 58%, rgba(255,255,255,0.9) 52%, transparent 58%),
-      radial-gradient(ellipse 88px 15px at 97% 46%, rgba(255,255,255,0.9) 54%, transparent 60%);
-    animation: crash 6s ease-in-out infinite;
-  }
-  @keyframes crash {
-    0%   { transform: translateY(0px);  opacity: 0.35; }
-    35%  { transform: translateY(4px);  opacity: 0.6; }
-    55%  { transform: translateY(14px); opacity: 1; }    /* wave rushes a little up the sand */
-    70%  { transform: translateY(10px); opacity: 0.9; }
-    100% { transform: translateY(0px);  opacity: 0.35; } /* water recedes */
-  }
-
-  /* decorative beach details */
-  .deco { position: absolute; z-index: 2; pointer-events: none; }
 
   /* ---------- Header ---------- */
   header {
@@ -248,30 +218,34 @@
     font-size: clamp(20px, 3vw, 38px);
     line-height: 1.05;
     color: #fff;
-    text-shadow: 0 3px 0 var(--sea-deep), 0 6px 12px rgba(0,0,0,0.25);
+    text-shadow: 0 0 14px rgba(120,200,255,0.9), 0 3px 0 #2a1a55, 0 6px 16px rgba(0,0,0,0.5);
     letter-spacing: 0.5px;
   }
-  .game-title .accent { color: var(--gold); }
+  .game-title .accent {
+    color: var(--nebula-cyan);
+    text-shadow: 0 0 16px rgba(56,225,255,0.9), 0 3px 0 #16324a;
+  }
   .subtitle {
-    margin-top: 6px;
+    margin-top: 8px;
     font-size: clamp(11px, 1.2vw, 15px);
     font-weight: 700;
-    color: var(--ink);
-    background: rgba(255,255,255,0.7);
+    color: #d8e6ff;
+    background: rgba(45,26,94,0.7);
+    border: 1px solid rgba(120,200,255,0.4);
     display: inline-block;
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: 20px;
   }
 
   .panel {
     pointer-events: auto;
-    background: rgba(255,255,255,0.92);
-    border: 3px solid var(--sea-deep);
+    background: rgba(20,16,52,0.88);
+    border: 2px solid var(--nebula-cyan);
     border-radius: 18px;
     padding: 12px 18px;
-    box-shadow: 0 6px 0 rgba(15,58,68,0.35);
+    box-shadow: 0 0 22px rgba(56,225,255,0.4), 0 6px 0 rgba(8,6,28,0.6);
     text-align: right;
-    min-width: 210px;
+    min-width: 220px;
   }
   .score-row {
     display: flex;
@@ -284,7 +258,7 @@
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--sea-deep);
+    color: var(--nebula-cyan);
   }
   .score-value {
     font-family: 'Fredoka', sans-serif;
@@ -292,54 +266,83 @@
     font-size: 30px;
     color: var(--gold);
     line-height: 1;
+    text-shadow: 0 0 12px rgba(255,210,74,0.7);
   }
   .stat-line {
     margin-top: 6px;
     font-size: 13px;
     font-weight: 700;
-    color: var(--ink);
+    color: #d8e6ff;
   }
   .progress {
     margin-top: 8px;
     height: 12px;
     width: 100%;
-    background: #e3e9ea;
+    background: #1c1740;
     border-radius: 8px;
     overflow: hidden;
-    border: 2px solid var(--sea-deep);
+    border: 2px solid rgba(120,200,255,0.5);
   }
   .progress-fill {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, var(--sea-light), var(--sea-mid));
+    background: linear-gradient(90deg, var(--nebula-cyan), var(--nebula-pink));
+    box-shadow: 0 0 10px rgba(56,225,255,0.8);
     transition: width 0.35s ease;
   }
   .rating {
     margin-top: 6px;
     font-size: 12px;
     font-weight: 800;
-    color: var(--sea-mid);
+    color: var(--nebula-pink);
     letter-spacing: 0.5px;
   }
 
-  /* ---------- Trash ---------- */
+  /* ---------- Spaceship ---------- */
+  .ship {
+    position: absolute;
+    top: 24%;
+    left: -180px;
+    width: 150px;
+    z-index: 4;
+    filter: drop-shadow(0 0 12px rgba(56,225,255,0.6));
+    animation: cruise 38s linear infinite;
+  }
+  .ship .bob { animation: shipBob 3s ease-in-out infinite alternate; transform-origin: 50% 50%; }
+  @keyframes cruise {
+    from { transform: translateX(0); }
+    to   { transform: translateX(calc(100vw + 220px)); }
+  }
+  @keyframes shipBob {
+    from { transform: translateY(-5px) rotate(-2deg); }
+    to   { transform: translateY(6px) rotate(2deg); }
+  }
+
+  /* ---------- Debris (trash) ---------- */
   .trash {
     position: absolute;
     cursor: pointer;
     z-index: 10;
     transition: transform 0.12s ease;
-    filter: drop-shadow(0 4px 4px rgba(0,0,0,0.28));
+    filter: drop-shadow(0 0 6px rgba(120,200,255,0.55));
+    animation: hover 3.5s ease-in-out infinite alternate;
   }
-  .trash:hover { transform: scale(1.18) !important; z-index: 12; }
+  @keyframes hover {
+    from { margin-top: -3px; }
+    to   { margin-top: 3px; }
+  }
+  .trash:hover { transform: scale(1.18) !important; z-index: 12;
+                 filter: drop-shadow(0 0 12px rgba(56,225,255,0.95)); }
   .trash:active { transform: scale(0.92) !important; }
   .trash.collected {
-    animation: pop 0.4s ease forwards;
+    animation: warp 0.45s ease forwards;
     pointer-events: none;
   }
-  @keyframes pop {
+  @keyframes warp {
     0%   { transform: scale(1); opacity: 1; }
-    45%  { transform: scale(1.5) rotate(20deg); opacity: 1; }
-    100% { transform: scale(0) rotate(60deg); opacity: 0; }
+    45%  { transform: scale(1.6) rotate(30deg); opacity: 1;
+           filter: drop-shadow(0 0 20px rgba(56,225,255,1)); }
+    100% { transform: scale(0) rotate(90deg); opacity: 0; }
   }
 
   /* floating score popup */
@@ -349,7 +352,7 @@
     font-weight: 700;
     font-size: 22px;
     color: var(--gold);
-    text-shadow: 0 2px 0 #fff, 0 0 8px rgba(0,0,0,0.3);
+    text-shadow: 0 0 10px rgba(255,210,74,0.9), 0 2px 4px rgba(0,0,0,0.6);
     pointer-events: none;
     z-index: 15;
     animation: floatUp 0.9s ease-out forwards;
@@ -367,20 +370,20 @@
     display: none;
     align-items: center;
     justify-content: center;
-    background: rgba(13,52,62,0.55);
-    backdrop-filter: blur(3px);
+    background: rgba(8,6,28,0.78);
+    backdrop-filter: blur(4px);
     z-index: 50;
   }
   .overlay.show { display: flex; animation: fade 0.4s ease; }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
   .win-card {
-    background: linear-gradient(160deg, #ffffff, #eaf7f9);
-    border: 5px solid var(--gold);
+    background: linear-gradient(160deg, #1c1450, #2d1a5e);
+    border: 3px solid var(--gold);
     border-radius: 28px;
     padding: 40px 52px;
     text-align: center;
-    box-shadow: 0 18px 0 rgba(15,58,68,0.4);
+    box-shadow: 0 0 50px rgba(255,210,74,0.4), 0 18px 0 rgba(8,6,28,0.7);
     max-width: 460px;
     animation: drop 0.5s cubic-bezier(.2,1.4,.5,1);
   }
@@ -388,33 +391,32 @@
     from { transform: translateY(-60px) scale(0.8); opacity: 0; }
     to   { transform: translateY(0) scale(1); opacity: 1; }
   }
+  .win-card .tick { font-size: 58px; line-height: 1; }
   .win-card h2 {
     font-family: 'Fredoka', sans-serif;
-    font-size: 40px;
-    color: var(--sea-deep);
+    font-size: 38px;
+    color: var(--nebula-cyan);
+    text-shadow: 0 0 16px rgba(56,225,255,0.7);
     margin-bottom: 4px;
-  }
-  .win-card .tick {
-    font-size: 58px;
-    line-height: 1;
   }
   .win-card p {
     font-size: 17px;
     font-weight: 700;
-    color: var(--ink);
+    color: #d8e6ff;
     margin: 10px 0;
   }
   .win-card .final {
     font-family: 'Fredoka', sans-serif;
     font-size: 26px;
     color: var(--gold);
+    text-shadow: 0 0 12px rgba(255,210,74,0.6);
     margin: 14px 0;
   }
   .win-msg {
     font-family: 'Fredoka', sans-serif;
     font-size: 22px;
     font-weight: 600;
-    color: var(--sea-mid);
+    color: var(--nebula-pink);
     margin-bottom: 18px;
   }
   .btn {
@@ -422,20 +424,19 @@
     font-family: 'Fredoka', sans-serif;
     font-weight: 600;
     font-size: 18px;
-    color: #fff;
-    background: var(--sea-mid);
+    color: var(--ink);
+    background: var(--nebula-cyan);
     border: none;
-    border-bottom: 5px solid var(--sea-deep);
+    border-bottom: 5px solid #1c7a93;
     border-radius: 16px;
     padding: 12px 30px;
     cursor: pointer;
     transition: transform 0.1s ease, filter 0.15s ease;
   }
-  .btn:hover { filter: brightness(1.1); }
+  .btn:hover { filter: brightness(1.12); }
   .btn:active { transform: translateY(3px); border-bottom-width: 2px; }
   .btn.gold { background: var(--gold); border-bottom-color: #c9870f; color: var(--ink); }
 
-  /* small reset button bottom-left */
   .reset-mini {
     position: absolute;
     bottom: 16px; left: 16px;
@@ -443,14 +444,14 @@
     font-family: 'Fredoka', sans-serif;
     font-weight: 600;
     font-size: 14px;
-    background: rgba(255,255,255,0.9);
-    color: var(--sea-deep);
-    border: 2px solid var(--sea-deep);
+    background: rgba(20,16,52,0.9);
+    color: var(--nebula-cyan);
+    border: 2px solid var(--nebula-cyan);
     border-radius: 12px;
     padding: 8px 16px;
     cursor: pointer;
   }
-  .reset-mini:hover { background: #fff; }
+  .reset-mini:hover { background: #241a55; }
 
   .hint {
     position: absolute;
@@ -459,8 +460,9 @@
     z-index: 20;
     font-weight: 800;
     font-size: 14px;
-    color: var(--sea-deep);
-    background: rgba(255,255,255,0.8);
+    color: #d8e6ff;
+    background: rgba(20,16,52,0.85);
+    border: 1px solid rgba(120,200,255,0.4);
     padding: 6px 16px;
     border-radius: 20px;
   }
@@ -469,71 +471,83 @@
 <body>
 <div id="game">
 
-  <div class="sun-rays"></div>
-  <div class="sun"></div>
-  <div class="cloud c-big"></div>
-  <div class="cloud c1"></div>
-  <div class="cloud c2"></div>
-  <div class="foam-line"></div>
+  <div class="stars"  id="stars"></div>
+  <div class="stars2" id="stars2"></div>
+  <div class="nebula neb1"></div>
+  <div class="nebula neb2"></div>
+  <div class="nebula neb3"></div>
+  <div class="shooting"></div>
 
-  <!-- big boat sailing across the sea -->
-  <div class="boat">
-    <svg viewBox="0 0 150 130" xmlns="http://www.w3.org/2000/svg">
-      <g class="hull-bob">
-        <!-- mast -->
-        <rect x="71" y="14" width="5" height="62" rx="2" fill="#8a5a2b"/>
-        <!-- main sail -->
-        <path d="M76 16 Q116 38 104 72 L76 72 Z" fill="#fdfdfd" stroke="#d8dee0" stroke-width="1.5"/>
-        <!-- front sail -->
-        <path d="M70 20 Q40 44 50 72 L70 72 Z" fill="#ffd24a" stroke="#e0ad2c" stroke-width="1.5"/>
-        <!-- flag -->
-        <path d="M76 14 L92 19 L76 24 Z" fill="#ff6b6b"/>
-        <!-- hull -->
-        <path d="M30 76 L120 76 Q112 102 75 102 Q38 102 30 76 Z" fill="#d94f4f" stroke="#9e2f2f" stroke-width="2"/>
-        <rect x="30" y="74" width="90" height="7" rx="3" fill="#f0f0f0"/>
-        <!-- portholes -->
-        <circle cx="58" cy="86" r="4" fill="#bfe9f2" stroke="#9e2f2f" stroke-width="1.5"/>
-        <circle cx="75" cy="88" r="4" fill="#bfe9f2" stroke="#9e2f2f" stroke-width="1.5"/>
-        <circle cx="92" cy="86" r="4" fill="#bfe9f2" stroke="#9e2f2f" stroke-width="1.5"/>
+  <div class="moon"></div>
+
+  <!-- distant ringed planet -->
+  <svg class="planet-deco" width="120" height="80" viewBox="0 0 120 80">
+    <defs>
+      <radialGradient id="pg" cx="38%" cy="34%">
+        <stop offset="0%" stop-color="#ffd9f2"/>
+        <stop offset="60%" stop-color="#c97fd6"/>
+        <stop offset="100%" stop-color="#8a4fa0"/>
+      </radialGradient>
+    </defs>
+    <ellipse cx="60" cy="40" rx="54" ry="14" fill="none" stroke="#7a5fd0" stroke-width="5" opacity="0.7"/>
+    <circle cx="60" cy="40" r="24" fill="url(#pg)"/>
+    <ellipse cx="60" cy="40" rx="54" ry="14" fill="none" stroke="#a98fe8" stroke-width="3" opacity="0.55"/>
+  </svg>
+
+  <!-- static moon surface terrain -->
+  <div class="surface">
+    <svg class="ridge" viewBox="0 0 1200 60" preserveAspectRatio="none">
+      <path d="M0 30 L70 18 L150 34 L240 12 L330 28 L430 16 L530 32 L640 14 L740 30 L850 18 L960 34 L1070 20 L1200 30 L1200 60 L0 60 Z"
+            fill="#5a3fa0"/>
+      <path d="M0 38 L90 26 L190 40 L300 22 L410 38 L520 24 L640 40 L760 24 L880 40 L1000 26 L1120 40 L1200 30 L1200 60 L0 60 Z"
+            fill="#4a2f8f"/>
+    </svg>
+    <div class="rim"></div>
+    <div class="dust"></div>
+  </div>
+
+  <!-- surface craters -->
+  <div class="crater" style="width:120px;height:44px;bottom:9%;left:5%;"></div>
+  <div class="crater" style="width:80px;height:30px;bottom:20%;left:38%;"></div>
+  <div class="crater" style="width:150px;height:52px;bottom:5%;right:7%;"></div>
+  <div class="crater" style="width:64px;height:24px;bottom:28%;right:28%;"></div>
+  <div class="crater" style="width:96px;height:36px;bottom:34%;left:15%;"></div>
+  <div class="crater" style="width:70px;height:26px;bottom:14%;left:62%;"></div>
+
+  <!-- scattered moon rocks -->
+  <div class="rock" style="width:14px;height:11px;bottom:12%;left:24%;border-radius:46% 54% 60% 40%;"></div>
+  <div class="rock" style="width:20px;height:15px;bottom:7%;left:52%;border-radius:55% 45% 40% 60%;"></div>
+  <div class="rock" style="width:11px;height:9px;bottom:30%;left:48%;border-radius:50% 50% 45% 55%;"></div>
+  <div class="rock" style="width:17px;height:13px;bottom:18%;right:18%;border-radius:42% 58% 55% 45%;"></div>
+  <div class="rock" style="width:13px;height:10px;bottom:38%;right:40%;border-radius:60% 40% 50% 50%;"></div>
+  <div class="rock" style="width:22px;height:16px;bottom:6%;left:10%;border-radius:48% 52% 58% 42%;"></div>
+
+
+  <!-- spaceship cruising past -->
+  <div class="ship">
+    <svg viewBox="0 0 150 110" xmlns="http://www.w3.org/2000/svg">
+      <g class="bob">
+        <!-- engine flames -->
+        <path d="M22 55 L4 50 L22 45 Z" fill="#ff7b3c"/>
+        <path d="M22 55 L12 51 L22 49 Z" fill="#ffd24a"/>
+        <!-- body -->
+        <path d="M22 42 Q70 28 124 50 Q70 72 22 58 Z" fill="#cdd6e0" stroke="#8a93a8" stroke-width="2"/>
+        <path d="M22 50 Q70 60 124 50 Q70 56 22 53 Z" fill="#9aa6bd"/>
+        <!-- cockpit dome -->
+        <path d="M82 36 Q104 30 112 46 Q98 50 84 47 Z" fill="#38e1ff" stroke="#1c7a93" stroke-width="2"/>
+        <ellipse cx="94" cy="40" rx="7" ry="3.5" fill="#d6fbff" opacity="0.8"/>
+        <!-- fin -->
+        <path d="M40 42 L34 18 L54 40 Z" fill="#ff5fae" stroke="#b13b80" stroke-width="1.5"/>
+        <!-- side stripe -->
+        <path d="M40 52 L96 52" stroke="#ff5fae" stroke-width="3"/>
       </g>
     </svg>
   </div>
 
-  <!-- ocean waves rolling toward shore -->
-  <div class="waves">
-    <svg class="wave-back" viewBox="0 0 1200 200" preserveAspectRatio="none">
-      <path d="M0 120 C150 70 300 170 450 120 C600 70 750 170 900 120 C1050 70 1200 170 1350 120 C1500 70 1650 170 1800 120 L1800 200 L0 200 Z"
-            fill="#2a9bb8"/>
-    </svg>
-    <svg class="wave-mid" viewBox="0 0 1200 200" preserveAspectRatio="none">
-      <path d="M0 140 C150 95 300 185 450 140 C600 95 750 185 900 140 C1050 95 1200 185 1350 140 C1500 95 1650 185 1800 140 L1800 200 L0 200 Z"
-            fill="#5bc7d6"/>
-    </svg>
-    <svg class="wave-front" viewBox="0 0 1200 200" preserveAspectRatio="none">
-      <path d="M0 160 C150 125 300 195 450 160 C600 125 750 195 900 160 C1050 125 1200 195 1350 160 C1500 125 1650 195 1800 160 L1800 200 L0 200 Z"
-            fill="#eafaff"/>
-    </svg>
-  </div>
-
-  <!-- foam crashing up onto the sand -->
-  <div class="surf"></div>
-
-  <!-- decorative beach elements -->
-  <svg class="deco" style="bottom:6%;left:6%;width:90px;" viewBox="0 0 100 70">
-    <path d="M50 70 C20 55 10 30 28 18 C40 10 50 22 50 30 C50 22 60 10 72 18 C90 30 80 55 50 70Z" fill="#ff8fa3" opacity="0.55"/>
-  </svg>
-  <svg class="deco" style="bottom:4%;right:9%;width:70px;" viewBox="0 0 100 100">
-    <path d="M50 8 L58 40 L92 40 L64 60 L74 92 L50 72 L26 92 L36 60 L8 40 L42 40Z" fill="#ffd24a" opacity="0.5"/>
-  </svg>
-  <svg class="deco" style="bottom:14%;left:42%;width:54px;" viewBox="0 0 100 100">
-    <ellipse cx="50" cy="58" rx="38" ry="30" fill="#f0a868" opacity="0.5"/>
-    <ellipse cx="50" cy="50" rx="30" ry="24" fill="#e08a3c" opacity="0.45"/>
-  </svg>
-
   <header>
     <div class="title-block">
-      <div class="game-title">SDGs Plastic-Free Sustainability<br><span class="accent">Beach Cleanup</span></div>
-      <div class="subtitle">🌊 Click the trash to clean the shore</div>
+      <div class="game-title">SDGs Plastic-Free Sustainability<br><span class="accent">Galaxy Cleanup</span></div>
+      <div class="subtitle">🚀 Clear the orbiting space debris</div>
     </div>
     <div class="panel">
       <div class="score-row">
@@ -542,23 +556,23 @@
       </div>
       <div class="stat-line">Collected: <span id="collected">0</span> / 50</div>
       <div class="progress"><div class="progress-fill" id="progress"></div></div>
-      <div class="rating" id="rating">Performance: Just getting started</div>
+      <div class="rating" id="rating">Performance: Pre-launch checks</div>
     </div>
   </header>
 
   <div class="overlay" id="overlay">
     <div class="win-card">
-      <div class="tick">🏆</div>
+      <div class="tick">🛸</div>
       <h2>Mission Complete!</h2>
-      <p>The beach is clean and plastic-free.</p>
+      <p>The orbit is clear and debris-free.</p>
       <div class="final" id="finalScore">Final Score: 0</div>
-      <div class="win-msg" id="winMsg">Great work, Ocean Guardian!</div>
-      <button class="btn gold" id="nextBtn">Go to the Next Level →</button>
+      <div class="win-msg" id="winMsg">Great work, Star Guardian!</div>
+      <button class="btn gold" id="nextBtn">Warp to the Next Level →</button>
     </div>
   </div>
 
-  <button class="reset-mini" id="resetBtn">↻ Scatter New Trash</button>
-  <div class="hint" id="hint">Bigger and rarer trash is worth more points!</div>
+  <button class="reset-mini" id="resetBtn">↻ Scatter New Debris</button>
+  <div class="hint" id="hint">Bigger and rarer debris is worth more points!</div>
 </div>
 
 <script>
@@ -577,8 +591,23 @@
   let score = 0;
   let collected = 0;
 
-  /* ---- Trash type definitions: SVG icon factory, base points, size range ---- */
-  // Each icon returns an <svg> string for a given pixel size.
+  const rand  = (a, b) => Math.random() * (b - a) + a;
+  const randi = (a, b) => Math.floor(rand(a, b + 1));
+
+  /* ---- build the starfield ---- */
+  function buildStars(layer, count, maxSize) {
+    let html = '';
+    for (let i = 0; i < count; i++) {
+      const s = rand(1, maxSize);
+      html += '<div class="star" style="width:' + s + 'px;height:' + s +
+              'px;top:' + rand(0, 48) + '%;left:' + rand(0, 100) + '%;"></div>';
+    }
+    layer.innerHTML = html;
+  }
+  buildStars(document.getElementById('stars'),  90, 2.6);
+  buildStars(document.getElementById('stars2'), 60, 3.4);
+
+  /* ---- Debris type definitions (real waste, floating in orbit) ---- */
   const TYPES = [
     {
       name: 'Plastic Bottle', points: 10, min: 34, max: 52,
@@ -669,17 +698,13 @@
     }
   ];
 
-  /* ---- helpers ---- */
-  const rand  = (a, b) => Math.random() * (b - a) + a;
-  const randi = (a, b) => Math.floor(rand(a, b + 1));
-
   function ratingText(p) {
-    if (p === 0)   return 'Performance: Just getting started';
-    if (p < 0.25)  return 'Performance: Warming up 🌱';
-    if (p < 0.55)  return 'Performance: Making waves 🌊';
-    if (p < 0.85)  return 'Performance: Beach hero 🐚';
-    if (p < 1)     return 'Performance: Almost spotless ✨';
-    return 'Performance: Ocean Guardian 🏆';
+    if (p === 0)   return 'Performance: Pre-launch checks';
+    if (p < 0.25)  return 'Performance: Lift-off 🚀';
+    if (p < 0.55)  return 'Performance: In orbit 🛰️';
+    if (p < 0.85)  return 'Performance: Star cadet ⭐';
+    if (p < 1)     return 'Performance: Almost clear ✨';
+    return 'Performance: Star Guardian 🏆';
   }
 
   function updateHUD() {
@@ -694,7 +719,7 @@
     game.querySelectorAll('.trash, .pts-pop').forEach(el => el.remove());
   }
 
-  /* ---- spawn 50 trash items in the lower half (the beach) ---- */
+  /* ---- spawn 50 debris items across the lower-half planet surface ---- */
   function spawnTrash() {
     clearTrash();
     score = 0;
@@ -703,8 +728,6 @@
     overlay.classList.remove('show');
     hint.style.display = '';
 
-    // Lower-half band: keep clear of header & sea, and a little margin.
-    // Sand visually starts at ~50% height; place trash between 52% and 92%.
     const topMin = 54, topMax = 90;
     const leftMin = 3, leftMax = 92;
 
@@ -712,7 +735,6 @@
       const type = TYPES[randi(0, TYPES.length - 1)];
       const size = Math.round(rand(type.min, type.max));
 
-      // size influences score: bigger pieces of the same type score a bit more
       const sizeBonus = Math.round((size - type.min) / (type.max - type.min) * 6);
       const value = type.points + sizeBonus;
 
@@ -724,6 +746,7 @@
       el.style.left = rand(leftMin, leftMax) + '%';
       el.style.top  = rand(topMin, topMax) + '%';
       el.style.transform = 'rotate(' + rot + 'deg)';
+      el.style.animationDelay = (-rand(0, 3.5)) + 's';
       el.dataset.rot   = rot;
       el.dataset.value = value;
       el.title = type.name + ' · ' + value + ' pts';
@@ -733,7 +756,7 @@
     }
   }
 
-  /* ---- collect one trash item ---- */
+  /* ---- collect one debris item ---- */
   function collect(el) {
     if (el.classList.contains('collected')) return;
 
@@ -742,7 +765,6 @@
     collected++;
     updateHUD();
 
-    // floating points popup
     const pop = document.createElement('div');
     pop.className = 'pts-pop';
     pop.textContent = '+' + value;
@@ -752,7 +774,7 @@
     setTimeout(() => pop.remove(), 900);
 
     el.classList.add('collected');
-    setTimeout(() => el.remove(), 400);
+    setTimeout(() => el.remove(), 450);
 
     if (collected === TOTAL) setTimeout(showWin, 500);
   }
@@ -761,9 +783,9 @@
   function showWin() {
     finalEl.textContent = 'Final Score: ' + score;
     let msg;
-    if (score >= 480)      msg = 'Perfect cleanup — you are a true Ocean Guardian! 🌟';
-    else if (score >= 380) msg = 'Excellent work keeping the ocean plastic-free!';
-    else                   msg = 'Good job — the sea life thanks you!';
+    if (score >= 480)      msg = 'Perfect cleanup — you are a true Star Guardian! 🌟';
+    else if (score >= 380) msg = 'Excellent work keeping the galaxy debris-free!';
+    else                   msg = 'Good job — the cosmos thanks you!';
     winMsgEl.textContent = msg;
     hint.style.display = 'none';
     overlay.classList.add('show');
@@ -772,7 +794,6 @@
   document.getElementById('nextBtn').addEventListener('click', spawnTrash);
   document.getElementById('resetBtn').addEventListener('click', spawnTrash);
 
-  // scatter fresh trash every time the page loads
   spawnTrash();
 })();
 </script>
